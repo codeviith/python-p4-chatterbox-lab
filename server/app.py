@@ -15,14 +15,14 @@ migrate = Migrate(app, db)
 db.init_app(app)
 
 @app.get('/messages')
-def messages():
+def get_messages():
     msgs = Message.query.order_by(Message.created_at).all()
     body = [msg.to_dict() for msg in msgs]
 
     return (body, 200)
 
 @app.post('/messages')
-def messages():
+def post_messages():
     msg_data = request.get_json()
     new_msg = Message(
         body = msg_data.get('body'),
