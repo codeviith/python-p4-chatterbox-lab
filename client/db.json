@@ -34,6 +34,11 @@
       "username": "Duane",
       "body": "test",
       "id": 6
+    },
+    {
+      "username": "Duane",
+      "body": "test2",
+      "id": 7
     }
   ]
 }
