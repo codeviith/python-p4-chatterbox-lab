@@ -22,7 +22,7 @@ def get_messages():
     return (body, 200)
 
 @app.post('/messages')
-def post_messages():
+def post_message():
     msg_data = request.get_json()
     new_msg = Message(
         body = msg_data.get('body'),
@@ -34,7 +34,7 @@ def post_messages():
     return (new_msg.to_dict(), 201)
 
 @app.delete('/messages/<int:id>')
-def delete_message(id):
+def delete_message_by_id(id):
     msg = Message.query.filter(Message.id == id).first()
 
     if not msg: ### if msg is None also works, but it's more restrictive to limiting the msg to MUST be None.
@@ -46,7 +46,7 @@ def delete_message(id):
     return ({}, 200)
 
 @app.patch('/messages/<int:id>')
-def patch_message(id):
+def patch_message_by_id(id):
     msg_data = request.get_json()
     msg = Message.query.filter(Message.id == id).first()
 
@@ -56,11 +56,10 @@ def patch_message(id):
     for field in msg_data:
         setattr(msg, field, msg_data[field])
 
-    db.sesion.add(msg)
+    db.session.add(msg)
     db.session.commit()
 
-    return (msg.to_dict(), 200)
-    
+    return make_response(msg.to_dict(), 200)
 
 @app.route('/messages/<int:id>')
 def messages_by_id(id):
@@ -72,5 +71,6 @@ def messages_by_id(id):
     return msg.to_dict(), 200
 
 
+
 if __name__ == '__main__':
-    app.run(port=5555)
+    app.run(port=4000)
